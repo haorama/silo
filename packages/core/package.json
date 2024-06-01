@@ -1,4 +1,36 @@
 {
   "name": "@silo/core",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "tsc --noEmit && eslint \"src/**/*.ts\""
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "devDependencies": {
+    "@silo/tsconfig": "workspace:*",
+    "@types/node": "^20.13.0",
+    "eslint-config-custom": "workspace:*",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
+  }
 }

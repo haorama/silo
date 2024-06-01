@@ -1,0 +1,21 @@
+{
+  "name": "@silo/local",
+  "description": "Local storage for nodejs",
+  "version": "0.0.1",
+  "author": "Michael Lazuardy",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mlazuardy/silo"
+  },
+  "peerDependencies": {
+    "@silo/core": "^0.0.1"
+  },
+  "devDependencies": {
+    "@silo/core": "workspace:*",
+    "@silo/tsconfig": "workspace:*",
+    "@types/node": "^20.13.0",
+    "eslint-config-custom": "workspace:*",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  }
+}
