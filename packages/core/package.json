@@ -1,5 +1,5 @@
 {
-  "name": "@silo/core",
+  "name": "@haorama/silo",
   "version": "0.0.1",
   "scripts": {
     "build": "tsup",
@@ -27,7 +27,7 @@
     }
   },
   "devDependencies": {
-    "@silo/tsconfig": "workspace:*",
+    "tsconfig": "workspace:*",
     "@types/node": "^20.13.0",
     "eslint-config-custom": "workspace:*",
     "tsup": "^8.0.2",

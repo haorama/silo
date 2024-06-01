@@ -1,3 +1,3 @@
 {
-  "extends": "@silo/tsconfig/base"
+  "extends": "tsconfig/base"
 }

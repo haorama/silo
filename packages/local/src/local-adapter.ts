@@ -1,4 +1,4 @@
-import { FileContent, SiloAdapter, PutError, FileError } from "@silo/core";
+import { FileContent, SiloAdapter, PutError, FileError } from "@haorama/silo";
 import fs from "fs";
 import { dirname } from "path";
 import { isReadableStream, pipeline } from "./utils";
