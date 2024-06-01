@@ -1,0 +1,20 @@
+{
+  "name": "@silo/workspace",
+  "version": "6.6.6",
+  "private": true,
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "storage",
+    "filesystem",
+    "nodejs"
+  ],
+  "author": "Michael Lazuardy",
+  "license": "MIT",
+  "devDependencies": {
+    "nx": "^19.1.1",
+    "nx-cloud": "^19.0.0"
+  }
+}
