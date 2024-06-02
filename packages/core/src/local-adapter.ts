@@ -44,7 +44,12 @@ export class LocalAdapter extends SiloAdapter {
 
       return readFile(fullPath);
     } catch (error) {
-      if (this.getThrowStat(options?.shouldThrow)) {
+      const methodShouldThrow =
+        typeof optionsOrEncoding === "string"
+          ? options?.shouldThrow
+          : optionsOrEncoding?.shouldThrow;
+
+      if (this.getThrowStat(methodShouldThrow)) {
         throw new FileError(error);
       }
     }
