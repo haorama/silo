@@ -1,9 +1,9 @@
-import type { DriverOptions, FileContent, MoveFileOptions } from "./types";
+import type { DiskOptions, FileContent, MoveFileOptions } from "./types";
 
 export abstract class SiloAdapter {
-  $options: DriverOptions;
+  $options: DiskOptions;
 
-  constructor(options: DriverOptions) {
+  constructor(options: DiskOptions) {
     this.$options = options;
   }
 

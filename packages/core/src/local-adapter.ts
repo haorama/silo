@@ -1,9 +1,10 @@
-import { FileContent, SiloAdapter, PutError, FileError } from "@haorama/silo";
 import fs from "fs";
 import { dirname } from "path";
 import { isReadableStream, pipeline } from "./utils";
-import { PutOptions } from "./types";
+import type { FileContent, PutOptions } from "./types";
 import { ensureDir, moveFile, outputFile, removeFile } from "./fs-extra";
+import { SiloAdapter } from "./adapter";
+import { FileError, PutError } from "./errors";
 
 export class LocalAdapter extends SiloAdapter {
   getFullPath(path: string) {
@@ -21,15 +22,16 @@ export class LocalAdapter extends SiloAdapter {
     const fullPath = this.getFullPath(path);
 
     try {
+      const dir = dirname(fullPath);
+      await ensureDir(dir, options?.dirMode);
+
       if (isReadableStream(content)) {
-        const dir = dirname(fullPath);
-        await ensureDir(dir, options?.dirMode);
         const ws = fs.createWriteStream(fullPath);
         await pipeline(content as any, ws);
         return { raw: undefined };
       }
 
-      const result = await outputFile(path, content);
+      const result = await outputFile(fullPath, content);
       return { raw: result };
     } catch (error) {
       if (options?.shouldThrow) {
