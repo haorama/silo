@@ -1,7 +1,7 @@
 src
 node_modules
 tests
-.eslintrc.js
+.eslintrc.cjs
 tsup.config.ts
 test-storage
 vitest.config.ts
