@@ -1,5 +1,5 @@
-# Silo
-Multi filesystem / storage for nodejs
+# Silo Core
+This package include Silo Core package and Local Adapter Disk / Driver
 
 ## Installation
 
@@ -36,23 +36,4 @@ export const storageManager = new StorageManager({
     },
   },
 });
-```
-
-### Put File
-```ts
-// there is optional disk argument in disk method, default to `defaultDisk`
-// put accept string, buffer or readable stream
-await storageManager.disk().put("text.txt", "some text");
-```
-
-### Remove File
-```ts
-// remove accept multiple path
-await storageManager.disk().remove("text.txt");
-```
-
-### Move File
-
-```ts
-await storageManager.disk().move("text.txt", "textv2.txt");
 ```
