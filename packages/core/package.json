@@ -1,18 +1,25 @@
 {
   "name": "@haorama/silo",
   "version": "0.0.1",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "sideEffects": false,
+  "author": "Michael Lazuardy",
+  "keywords": ["filesystem", "storage", "nodejs storage", "s3"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mlazuardy/silo"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts\"",
     "test": "vitest run"
-  },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "type": "module",
-  "sideEffects": false,
-  "publishConfig": {
-    "access": "public"
   },
   "exports": {
     "./package.json": "./package.json",
