@@ -1,15 +1,55 @@
 import fs from "fs";
 import { dirname } from "path";
 import { isReadableStream, pipeline } from "./utils";
-import type { FileContent, PutOptions } from "./types";
-import { ensureDir, moveFile, outputFile, removeFile } from "./fs-extra";
+import type {
+  FileContent,
+  GetOptions,
+  MoveOptions,
+  PutOptions,
+  RemoveOptions,
+} from "./types";
+import {
+  ensureDir,
+  moveFile,
+  outputFile,
+  readFile,
+  removeFile,
+} from "./fs-extra";
 import { SiloAdapter } from "./adapter";
-import { FileError, PutError } from "./errors";
+import { FileError } from "./errors";
 
 export class LocalAdapter extends SiloAdapter {
   getFullPath(path: string) {
     return this.$options.config.root + "/" + path;
   }
+
+  get(path: string, options?: GetOptions): Promise<Buffer>;
+  get(
+    path: string,
+    optionsOrEncoding?: GetOptions | BufferEncoding,
+    options?: GetOptions,
+  ): Promise<string>;
+
+  async get(
+    path: string,
+    optionsOrEncoding?: GetOptions | BufferEncoding,
+    options?: GetOptions,
+  ) {
+    const fullPath = this.getFullPath(path);
+
+    try {
+      if (typeof optionsOrEncoding === "string") {
+        return readFile(fullPath, optionsOrEncoding);
+      }
+
+      return readFile(fullPath);
+    } catch (error) {
+      if (this.getThrowStat(options?.shouldThrow)) {
+        throw new FileError(error);
+      }
+    }
+  }
+
   /**
    * Creates a new file.
    * This method will create missing directories on the fly.
@@ -34,13 +74,15 @@ export class LocalAdapter extends SiloAdapter {
       const result = await outputFile(fullPath, content);
       return { raw: result };
     } catch (error) {
-      if (options?.shouldThrow) {
-        throw new PutError(error);
+      if (this.getThrowStat(options?.shouldThrow)) {
+        throw new FileError(error);
       }
+
+      return { raw: undefined };
     }
   }
 
-  async remove(path: string | string[], options?: any): Promise<any> {
+  async remove(path: string | string[], options?: RemoveOptions): Promise<any> {
     const paths = !path ? [] : typeof path === "string" ? [path] : path;
 
     try {
@@ -49,15 +91,18 @@ export class LocalAdapter extends SiloAdapter {
           await removeFile(this.getFullPath(v));
         }),
       );
-      return { wasDeleted: true };
+
+      return true;
     } catch (error) {
-      if (options?.shouldThrow === true) {
+      if (this.getThrowStat(options?.shouldThrow)) {
         throw new FileError(error);
       }
+
+      return false;
     }
   }
 
-  async move(from: string, to: string): Promise<any> {
+  async move(from: string, to: string, options?: MoveOptions) {
     const sourcePath = this.getFullPath(from);
     const distPath = this.getFullPath(to);
 
@@ -68,7 +113,11 @@ export class LocalAdapter extends SiloAdapter {
       await moveFile(sourcePath, distPath);
       return true;
     } catch (error) {
-      throw error;
+      if (this.getThrowStat(options?.shouldThrow)) {
+        throw new FileError(error);
+      }
+
+      return false;
     }
   }
 }

@@ -1,6 +1,10 @@
-import { afterEach } from "vitest";
+import { beforeAll, afterAll } from "vitest";
 import { storageManager } from "./storage-manager";
 
-afterEach(async () => {
-  await storageManager.disk().remove("test.txt");
+beforeAll(async () => {
+  await storageManager.disk().put("get.txt", "get txt");
+});
+
+afterAll(async () => {
+  await storageManager.disk().remove(["test.txt", "movev2.txt"]);
 });

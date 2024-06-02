@@ -8,6 +8,7 @@ export interface TypeAdapter<T extends SiloAdapter = SiloAdapter> {
 export type LocalDiskOptions = {
   driver: "local";
   adapter: TypeAdapter;
+  shouldThrow?: boolean;
   config: {
     root: string;
     [key: string]: any;
@@ -17,10 +18,16 @@ export type LocalDiskOptions = {
 export type CommonDiskOptions = {
   driver: string;
   adapter: TypeAdapter;
+  shouldThrow?: boolean;
   config: {
     [key: string]: any;
   };
 };
+
+export interface CommonOperationOptions {
+  /** whether the put operation should throw an error, default false */
+  shouldThrow?: boolean;
+}
 
 export type DiskOptions = LocalDiskOptions | CommonDiskOptions;
 
@@ -29,15 +36,15 @@ export interface StorageManagerContructorOptions {
   disks: Record<string, DiskOptions>;
 }
 
-export interface MoveFileOptions {
-  overwrite?: boolean;
-}
-
 export type FileContent = Buffer | ReadableStream | string;
 
-export interface PutOptions {
-  /** whether the put operation should throw an error, default false */
-  shouldThrow?: boolean;
+export interface PutOptions extends CommonOperationOptions {
   /** only available on local driver */
   dirMode?: Mode;
 }
+
+export interface GetOptions extends CommonOperationOptions {}
+
+export interface RemoveOptions extends CommonOperationOptions {}
+
+export interface MoveOptions extends CommonOperationOptions {}

@@ -16,3 +16,23 @@ export async function moveFile(from: string, to: string) {
 export async function outputFile(path: string, content: any) {
   await fs.writeFile(path, content);
 }
+
+export function readFile(
+  path: string,
+  encoding?: null | undefined,
+): Promise<Buffer>;
+export function readFile(
+  path: string,
+  encoding?: BufferEncoding,
+): Promise<string>;
+
+export async function readFile(
+  path: string,
+  encoding?: BufferEncoding | (null | undefined),
+) {
+  if (!encoding) {
+    return await fs.readFile(path);
+  }
+
+  return await fs.readFile(path, encoding);
+}

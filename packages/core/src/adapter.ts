@@ -1,4 +1,12 @@
-import type { DiskOptions, FileContent, MoveFileOptions } from "./types";
+import { NotImplementedError } from "./errors";
+import type {
+  DiskOptions,
+  FileContent,
+  GetOptions,
+  MoveOptions,
+  PutOptions,
+  RemoveOptions,
+} from "./types";
 
 export abstract class SiloAdapter {
   $options: DiskOptions;
@@ -7,11 +15,33 @@ export abstract class SiloAdapter {
     this.$options = options;
   }
 
-  abstract put(path: string, content?: FileContent): Promise<any>;
-  abstract remove(path: string | string[]): Promise<any>;
-  abstract move(
-    from: string,
-    to: string,
-    options?: MoveFileOptions,
-  ): Promise<any>;
+  protected getThrowStat(methodValue?: boolean) {
+    if (typeof methodValue !== "undefined") {
+      return methodValue;
+    }
+
+    return this.$options.shouldThrow ?? false;
+  }
+
+  get(path: string, options?: GetOptions): Promise<Buffer>;
+  get(
+    path: string,
+    optionsOrEncoding?: GetOptions | BufferEncoding,
+    options?: GetOptions,
+  ): Promise<string>;
+  get(path: string, options?: GetOptions): Promise<Buffer | string> {
+    throw new NotImplementedError("get not implemented");
+  }
+
+  put(path: string, content?: FileContent, options?: PutOptions): Promise<any> {
+    throw new NotImplementedError("put not implemented");
+  }
+
+  remove(path: string | string[], options?: RemoveOptions): Promise<boolean> {
+    throw new NotImplementedError("remove not implemented");
+  }
+
+  move(from: string, to: string, options?: MoveOptions): Promise<any> {
+    throw new NotImplementedError("move not implemented");
+  }
 }

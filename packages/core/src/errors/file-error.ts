@@ -1,6 +1,9 @@
-export class FileError {
-  error: any;
+export class FileError extends Error {
+  raw: any;
+  path?: string;
+
   constructor(error: any) {
-    this.error = error;
+    super(error?.message ?? "File Error");
+    this.raw = error;
   }
 }

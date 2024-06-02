@@ -4,3 +4,4 @@ tests
 .eslintrc.js
 tsup.config.ts
 test-storage
+vitest.config.ts
