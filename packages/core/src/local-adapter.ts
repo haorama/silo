@@ -19,7 +19,7 @@ import { SiloAdapter } from "./adapter";
 import { FileError } from "./errors";
 
 export class LocalAdapter extends SiloAdapter {
-  getFullPath(path: string) {
+  fullPath(path: string) {
     return this.$options.config.root + "/" + path;
   }
 
@@ -35,14 +35,17 @@ export class LocalAdapter extends SiloAdapter {
     optionsOrEncoding?: GetOptions | BufferEncoding,
     options?: GetOptions,
   ) {
-    const fullPath = this.getFullPath(path);
+    const fullPath = this.fullPath(path);
 
     try {
       if (typeof optionsOrEncoding === "string") {
-        return readFile(fullPath, optionsOrEncoding);
+        const result = await readFile(fullPath, optionsOrEncoding);
+        return result;
       }
 
-      return readFile(fullPath);
+      const result = await readFile(fullPath);
+
+      return result;
     } catch (error) {
       const methodShouldThrow =
         typeof optionsOrEncoding === "string"
@@ -64,7 +67,7 @@ export class LocalAdapter extends SiloAdapter {
     content: FileContent,
     options?: PutOptions,
   ): Promise<any> {
-    const fullPath = this.getFullPath(path);
+    const fullPath = this.fullPath(path);
 
     try {
       const dir = dirname(fullPath);
@@ -93,7 +96,7 @@ export class LocalAdapter extends SiloAdapter {
     try {
       await Promise.all(
         paths.map(async (v) => {
-          await removeFile(this.getFullPath(v));
+          await removeFile(this.fullPath(v));
         }),
       );
 
@@ -108,8 +111,8 @@ export class LocalAdapter extends SiloAdapter {
   }
 
   async move(from: string, to: string, options?: MoveOptions) {
-    const sourcePath = this.getFullPath(from);
-    const distPath = this.getFullPath(to);
+    const sourcePath = this.fullPath(from);
+    const distPath = this.fullPath(to);
 
     try {
       const newDir = dirname(distPath);
