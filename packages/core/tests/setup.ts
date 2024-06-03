@@ -6,5 +6,5 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await storageManager.disk().remove(["test.txt", "movev2.txt"]);
+  await storageManager.disk().remove(["test.txt", "movev2.txt", "get.txt"]);
 });

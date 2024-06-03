@@ -8,7 +8,15 @@ export const storageManager = new StorageManager({
       driver: "local",
       adapter: LocalAdapter,
       config: {
-        root: resolve("./test-storage"),
+        root: resolve("./test-storage/local"),
+      },
+    },
+    public: {
+      driver: "local",
+      adapter: LocalAdapter,
+      shouldThrow: true,
+      config: {
+        root: resolve("./test-storage/public"),
       },
     },
   },
