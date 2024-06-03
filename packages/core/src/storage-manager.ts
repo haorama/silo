@@ -1,5 +1,13 @@
 import { SiloAdapter } from "./adapter";
-import type { DiskOptions, StorageManagerContructorOptions } from "./types";
+import type {
+  DiskOptions,
+  GetOptions,
+  StorageManagerContructorOptions,
+  FileContent,
+  PutOptions,
+  RemoveOptions,
+  MoveOptions,
+} from "./types";
 
 export class StorageManager {
   private $disks: Map<string, SiloAdapter> = new Map();
@@ -32,5 +40,29 @@ export class StorageManager {
       const storage = new options.adapter(options);
       this.$disks.set(name, storage);
     }
+  }
+
+  get(
+    path: string,
+    optionsOrEncoding?: GetOptions | BufferEncoding,
+    options?: GetOptions,
+  ) {
+    if (typeof optionsOrEncoding === "string") {
+      return this.disk().get(path, optionsOrEncoding, options);
+    }
+
+    return this.disk().get(path, optionsOrEncoding);
+  }
+
+  put(path: string, content: FileContent, options?: PutOptions) {
+    return this.disk().put(path, content, options);
+  }
+
+  remove(path: string | string[], options?: RemoveOptions) {
+    return this.disk().remove(path, options);
+  }
+
+  move(from: string, to: string, options?: MoveOptions) {
+    return this.disk().move(from, to, options);
   }
 }
