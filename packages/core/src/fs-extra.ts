@@ -36,3 +36,16 @@ export async function readFile(
 
   return await fs.readFile(path, encoding);
 }
+
+/**
+ * Check if directory or file is exists
+ * Internally use fs.access
+ */
+export async function pathExists(pathOrDir: string) {
+  try {
+    await fs.access(pathOrDir);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
