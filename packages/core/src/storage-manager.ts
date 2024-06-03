@@ -65,4 +65,12 @@ export class StorageManager {
   move(from: string, to: string, options?: MoveOptions) {
     return this.disk().move(from, to, options);
   }
+
+  fullPath(path: string) {
+    return this.disk().fullPath(path);
+  }
+
+  exists(path: string): Promise<boolean> {
+    return this.disk().exists(path);
+  }
 }

@@ -12,6 +12,7 @@ import {
   ensureDir,
   moveFile,
   outputFile,
+  pathExists,
   readFile,
   removeFile,
 } from "./fs-extra";
@@ -127,5 +128,9 @@ export class LocalAdapter extends SiloAdapter {
 
       return false;
     }
+  }
+
+  exists(path: string) {
+    return pathExists(this.fullPath(path));
   }
 }

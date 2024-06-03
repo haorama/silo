@@ -15,13 +15,6 @@ export abstract class SiloAdapter {
     this.$options = options;
   }
 
-  /**
-   * get full path or relative path
-   */
-  fullPath(path: string) {
-    return this.$options.config.root + "/" + path;
-  }
-
   protected getThrowStat(methodValue?: boolean) {
     if (typeof methodValue !== "undefined") {
       return methodValue;
@@ -62,5 +55,16 @@ export abstract class SiloAdapter {
    */
   move(from: string, to: string, options?: MoveOptions): Promise<any> {
     throw new NotImplementedError("move not implemented");
+  }
+
+  /**
+   * get full path or relative path
+   */
+  fullPath(path: string) {
+    throw new NotImplementedError("fullPath not implemented / available");
+  }
+
+  exists(path: string): Promise<boolean> {
+    throw new NotImplementedError("exists");
   }
 }
