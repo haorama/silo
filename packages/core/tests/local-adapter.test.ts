@@ -22,7 +22,8 @@ describe("LocalAdapter", () => {
   });
 
   it("(put, public) should put file in public directory", async () => {
-    //
+    const result = await storageManager.disk("public").put("put.txt", text);
+    expect(result).toBeDefined();
   });
 
   it("(remove) should remove file", async () => {
