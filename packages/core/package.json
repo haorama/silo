@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "type": "module",
   "sideEffects": false,
   "author": "Michael Lazuardy",
-  "keywords": ["filesystem", "storage", "nodejs storage", "s3"],
+  "keywords": [
+    "filesystem",
+    "storage",
+    "nodejs storage",
+    "s3"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -16,29 +20,16 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
+    "build": "rimraf dist && tsc --build tsconfig.json",
+    "dev": "tsc --build tsconfig.json --watch",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts\"",
     "test": "vitest run"
-  },
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
-    }
   },
   "devDependencies": {
     "@types/node": "^20.13.0",
     "eslint-config-custom": "workspace:*",
+    "rimraf": "^5.0.7",
     "tsconfig": "workspace:*",
-    "tsup": "^8.0.2",
     "typescript": "^5.4.5",
     "vitest": "^1.6.0"
   }
